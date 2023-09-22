@@ -1,12 +1,27 @@
+import { Container } from "@mui/material";
+import { Outlet } from "react-router-dom";
+import { createStyles, styled } from "@mui/material/styles";
 
-import { Container } from '@mui/material';
-import Navbar from './components/Navbar/Navbar';
+import { Navbar } from "./components/Index";
+
+import "./App.css";
 
 function App() {
+  const DIV = styled("div")(() =>
+    createStyles({
+      // backgroundColor: "#000",
+      minHeight: "100vh",
+    })
+  );
   return (
-    <Container maxWidth={'xl'}>
-     <Navbar />
-    </Container>
+    <DIV>
+      <Container maxWidth='lg'>
+        <Navbar />
+        <DIV>
+          <Outlet />
+        </DIV>
+      </Container>
+    </DIV>
   );
 }
 
