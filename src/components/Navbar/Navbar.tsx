@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-
 // Material UI
 import {
   AppBar,
@@ -15,6 +14,7 @@ import {
 } from "@mui/material";
 // Material UI Icons
 import MenuIcon from "@mui/icons-material/Menu";
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 // Material UI Styles
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -53,6 +53,10 @@ function ResponsiveAppBar() {
       <AppBar position='static' color='transparent' elevation={0}>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
+            <CurrencyBitcoinIcon
+              sx={{ fontSize: 40, display: { xs: "none", md: "flex" }, mr: 1 }}
+              color='warning'
+            />
             <Typography
               variant='h6'
               noWrap
@@ -107,6 +111,10 @@ function ResponsiveAppBar() {
                 ))}
               </Menu>
             </Box>
+            <CurrencyBitcoinIcon
+              sx={{ fontSize: 40, display: { xs: "flex", md: "none" }, mr: 1 }}
+              color='warning'
+            />
             <Typography
               variant='h5'
               noWrap
