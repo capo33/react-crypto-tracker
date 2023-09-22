@@ -15,11 +15,11 @@ function App() {
   );
   return (
     <DIV>
-      <Container maxWidth='lg'>
+      <Container maxWidth='xl'>
         <Navbar />
-        <DIV>
+        <>
           <Outlet />
-        </DIV>
+        </>
       </Container>
     </DIV>
   );
