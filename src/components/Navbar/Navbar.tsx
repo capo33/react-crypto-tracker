@@ -14,7 +14,6 @@ import {
   Menu,
 } from "@mui/material";
 // Material UI Icons
-import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 // Material UI Styles
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -108,7 +107,6 @@ function ResponsiveAppBar() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
               variant='h5'
               noWrap
@@ -125,7 +123,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              LOGO
+              Crypto Tricker App
             </Typography>
             <Box
               sx={{

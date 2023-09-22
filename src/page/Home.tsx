@@ -1,10 +1,14 @@
-import React from 'react'
-import Banner from '../components/Banner/Banner'
+import React from "react";
+import { Box } from "@mui/material";
+
+import { Banner } from "../components/Index";
 
 const Home = () => {
   return (
-    <div><Banner/></div>
-  )
-}
+    <Box sx={{ flex: 1 }}>
+      <Banner />
+    </Box>
+  );
+};
 
-export default Home
+export default Home;
