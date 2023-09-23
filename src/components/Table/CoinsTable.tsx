@@ -13,7 +13,9 @@ import {
   TableBody,
   TextField,
   CircularProgress,
+  tableCellClasses,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import { numberWithCommas } from "../../utils/Index";
 import { ICoin } from "../../interfaces/CoinInterface";
@@ -60,6 +62,26 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
     );
   };
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "#E5D283",
+      color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
       <TextField
@@ -71,9 +93,9 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
       />
       <TableContainer component={Paper}>
         {isLoading && <CircularProgress />}
-        <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+        <Table sx={{}} aria-label='customized table'>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#E5D283" }}>
+            <TableRow>
               {[
                 "Coin",
                 "Price",
@@ -81,7 +103,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                 "Total volume",
                 "Market Cap",
               ].map((head) => (
-                <TableCell
+                <StyledTableCell
                   sx={{
                     fontWeight: "700",
                   }}
@@ -89,7 +111,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                   align={head === "Coin" ? "left" : "right"}
                 >
                   {head}
-                </TableCell>
+                </StyledTableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -97,12 +119,12 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
             {handleSearch()?.map((row: ICoin) => {
               const profit = row?.price_change_percentage_24h > 0;
               return (
-                <TableRow
+                <StyledTableRow
                   key={row?.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <Link to={`/coin/${row?.id}`}>
-                    <TableCell
+                    <StyledTableCell
                       component='th'
                       scope='row'
                       sx={{
@@ -124,12 +146,12 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                         </span>
                         <span style={{ color: "darkgrey" }}>{row?.name}</span>
                       </div>
-                    </TableCell>
+                    </StyledTableCell>
                   </Link>
-                  <TableCell align='right'>
+                  <StyledTableCell align='right'>
                     {symbol} {numberWithCommas(row?.current_price.toFixed(2))}
-                  </TableCell>
-                  <TableCell
+                  </StyledTableCell>
+                  <StyledTableCell
                     align='right'
                     style={{
                       color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
@@ -138,8 +160,8 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                   >
                     {profit && "+"}
                     {row?.price_change_percentage_24h.toFixed(2)}%
-                  </TableCell>
-                  <TableCell
+                  </StyledTableCell>
+                  <StyledTableCell
                     align='right'
                     style={{
                       color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
@@ -147,12 +169,12 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     }}
                   >
                     {row?.total_volume}%
-                  </TableCell>
-                  <TableCell align='right'>
+                  </StyledTableCell>
+                  <StyledTableCell align='right'>
                     {numberWithCommas(row?.market_cap.toString()?.slice(0, -5))}
                     M
-                  </TableCell>
-                </TableRow>
+                  </StyledTableCell>
+                </StyledTableRow>
               );
             })}
           </TableBody>
