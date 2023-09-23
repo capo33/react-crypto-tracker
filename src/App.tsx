@@ -1,19 +1,18 @@
 import { Outlet } from "react-router-dom";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
-import { Navbar } from "./components/Index";
+ import { Navbar } from "./components/Index";
 
 import "./App.css";
-import { DIV } from "./styles/styles";
 
 function App() {
   return (
-    <DIV>
-      <Container maxWidth='xl'>
+    <Container maxWidth='xl'>
+      <Box sx={{ my: 15 }}>
         <Navbar />
         <Outlet />
-      </Container>
-    </DIV>
+      </Box>
+    </Container>
   );
 }
 

@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
- 
+import coinReducer from "../features/coinSlice";
+
  export const store = configureStore({
   reducer: {
-    },
+    coins: coinReducer,
+   },
 });
 
 // 1- Infer the `RootState` and `AppDispatch` types from the store itself

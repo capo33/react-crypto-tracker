@@ -1,5 +1,5 @@
 export interface ICoin {
-  coinName: string;
+  name: string;
   image: string;
   percentChange: number;
   current_price: number;

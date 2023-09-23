@@ -1,8 +1,7 @@
-import { createStyles, styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 
-export const DIV = styled("div")(() =>
-  createStyles({
-         
-    // minHeight: "100vh",
-  })
-);
+export const DIV = styled("div")(() => ({
+  padding: 100,
+  height: "100vh",
+  width: "100%",
+}));
