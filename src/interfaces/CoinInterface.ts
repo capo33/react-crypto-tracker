@@ -8,6 +8,7 @@ export interface ICoin {
   price_change_percentage_24h: number;
   market_cap: number;
   total_volume: number;
+  market_cap_rank: number;
 }
 
 export interface ICoinState {

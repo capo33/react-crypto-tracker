@@ -97,6 +97,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
           <TableHead>
             <TableRow>
               {[
+                "#Rank",
                 "Coin",
                 "Price",
                 "24h Change",
@@ -108,7 +109,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     fontWeight: "700",
                   }}
                   key={head}
-                  align={head === "Coin" ? "left" : "right"}
+                  // align={head === "#Rank"  ? "center" : "right"}
                 >
                   {head}
                 </StyledTableCell>
@@ -123,6 +124,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                   key={row?.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
+                  <StyledTableCell>{row?.market_cap_rank}</StyledTableCell>
                   <Link to={`/coin/${row?.id}`}>
                     <StyledTableCell
                       component='th'
@@ -148,11 +150,11 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                       </div>
                     </StyledTableCell>
                   </Link>
-                  <StyledTableCell align='right'>
+
+                  <StyledTableCell>
                     {symbol} {numberWithCommas(row?.current_price.toFixed(2))}
                   </StyledTableCell>
                   <StyledTableCell
-                    align='right'
                     style={{
                       color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
                       fontWeight: 500,
@@ -162,7 +164,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     {row?.price_change_percentage_24h.toFixed(2)}%
                   </StyledTableCell>
                   <StyledTableCell
-                    align='right'
                     style={{
                       color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
                       fontWeight: 500,
@@ -170,7 +171,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                   >
                     {row?.total_volume}%
                   </StyledTableCell>
-                  <StyledTableCell align='right'>
+                  <StyledTableCell>
                     {numberWithCommas(row?.market_cap.toString()?.slice(0, -5))}
                     M
                   </StyledTableCell>

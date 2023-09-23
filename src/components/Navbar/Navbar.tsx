@@ -50,6 +50,7 @@ function Navbar() {
               sx={{ fontSize: 40, display: { xs: "flex", md: "none" }, mr: 1 }}
               color='warning'
             />
+              <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
             <Typography
               variant='h5'
               noWrap
@@ -64,10 +65,9 @@ function Navbar() {
                 textDecoration: "none",
               }}
             >
-              <Link to='/' style={{ textDecoration: "none", color: "inherit" }}>
                 Crypto Tricker App
-              </Link>
             </Typography>
+              </Link>
           </Toolbar>
         </Container>
       </AppBar>
