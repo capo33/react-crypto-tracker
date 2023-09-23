@@ -4,15 +4,16 @@ import { Container } from "@mui/material";
 import { Navbar } from "./components/Index";
 
 import "./App.css";
+import { DIV } from "./styles/styles";
 
 function App() {
   return (
-    <Container maxWidth='xl'>
-      <Navbar />
-      <>
+    <DIV>
+      <Container maxWidth='xl'>
+        <Navbar />
         <Outlet />
-      </>
-    </Container>
+      </Container>
+    </DIV>
   );
 }
 

@@ -11,12 +11,15 @@ function Navbar() {
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
+      primary: {
+        main: "#fff",
+      },
     },
   });
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <AppBar component='nav'>
+      <AppBar component='nav' sx={{ background: "#213555" }}>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
             <CurrencyBitcoinIcon
