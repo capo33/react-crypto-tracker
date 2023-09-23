@@ -5,7 +5,7 @@ import { ICoinState } from "../../interfaces/CoinInterface";
 
 const initialState: ICoinState = {
   coins: [],
-  coin: null,
+   coin: null,
   trendingCoins: [],
   marketChart: null,
   isError: false,
@@ -16,9 +16,9 @@ const initialState: ICoinState = {
 // Get All Coins
 export const getCoins = createAsyncThunk(
   "coins/getCoins",
-  async (currency: string, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const response = await coinServices.getCoins(currency);
+      const response = await coinServices.getCoins();
 
       return response;
     } catch (error: unknown | any) {

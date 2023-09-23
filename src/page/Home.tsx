@@ -1,22 +1,27 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 
-import { useAppSelector, useAppDispatch } from "../redux/app/store";
-import { CoinsTable, HeroBunner } from "../components/Index";
-import { CryptoContext } from "../context/cryptoContext";
 import { getCoins } from "../redux/features/coinSlice";
+import { CoinsTable, HeroBunner } from "../components/Index";
+import { useAppSelector, useAppDispatch } from "../redux/app/store";
 
 const Home = () => {
   const { coins, isLoading } = useAppSelector((state) => state.coins);
 
-  const { currency } = useContext(CryptoContext);
   const dispatch = useAppDispatch();
 
-  console.log("coins", coins);
-
   useEffect(() => {
-    dispatch(getCoins(currency));
-  }, [dispatch, currency]);
+    // dispatch action to get coins
+    dispatch(getCoins());
+
+    // set interval to get coins every 60 seconds
+    const interval = setInterval(() => {
+      dispatch(getCoins());
+    }, 60000); // 60 seconds
+
+    // Clean up
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
     <Box sx={{ flex: 1 }}>

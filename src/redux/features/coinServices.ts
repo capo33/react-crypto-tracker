@@ -1,47 +1,38 @@
 import axios from "axios";
 
-// Get All Coins
-const getCoins = async (currency: string) => {
-  try {
-    const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
-      {
-        timeout: 10000,
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
+import { options } from "../../utils/Index";
+
+ 
+const getCoins = async () => {
+  const response = await axios.request(
+    options("https://coinranking1.p.rapidapi.com/coins")
+  );
+  return response.data.data.coins;
 };
 
 // Get Coin By Id
 const getCoinById = async (id: string) => {
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/${id}`
+  const response = await axios.request(
+    options(`https://coinranking1.p.rapidapi.com/coin/${id}`)
   );
 
-  return response.data;
+  return response.data.data.coin;
 };
-
-// Get Coin Market Chart Data
-const getCoinMarketChart = async (
-  id: string,
-  days: string,
-  currency: string
-) => {
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}`
+// Get Coin history
+const getCoinMarketChart = async (id: string) => {
+  const response = await axios.request(
+    options(`https://coinranking1.p.rapidapi.com/coin/${id}/history`)
   );
-  return response.data;
+
+  return response.data.data.history;
 };
 
 // Get TrendingCoins Data
-const getTrendingCoins = async (currency: string) => {
-  const response = await axios.get(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=gecko_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`
+const getTrendingCoins = async () => {
+  const response = await axios.request(
+    options("https://coinranking1.p.rapidapi.com/coins")
   );
-  return response.data;
+  return response.data.data.coins;
 };
 
 const coinServices = {

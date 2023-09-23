@@ -12,8 +12,9 @@ import {
   TableCell,
   TableBody,
   TextField,
-  CircularProgress,
   tableCellClasses,
+  Box,
+  LinearProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -28,7 +29,6 @@ type CoinsTableProps = {
 
 const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const [search, setSearch] = useState<string>("");
-
   const { symbol } = useContext(CryptoContext);
 
   function createData(
@@ -42,14 +42,13 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   }
 
   const rows = coins?.filter((coin: ICoin) => coin?.name?.includes(search));
-
   rows?.map((coin: ICoin) => {
     return createData(
       coin.name,
-      coin.current_price,
-      coin.total_volume,
-      coin.price_change_percentage_24h,
-      coin.market_cap
+      coin.change,
+      coin.price,
+      coin.rank,
+      coin["24hVolume"]
     );
   });
 
@@ -82,17 +81,42 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
     },
   }));
 
+  const CssTextField = styled(TextField)({
+    "& label.Mui-focused": {
+      color: "#A0AAB4",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#B2BAC2",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#E0E3E7",
+      },
+      "&:hover fieldset": {
+        borderColor: "#B2BAC2",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#6F7E8C",
+      },
+    },
+  });
+
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
-      <TextField
+      <CssTextField
         id='outlined-basic'
         label='Serch for a crypto currency'
         variant='outlined'
         sx={{ mb: 5, width: "100%" }}
         onChange={(e) => setSearch(e.target.value)}
       />
+      {isLoading && (
+        <Box sx={{ width: "100%", mb: 5 }}>
+          <LinearProgress />
+        </Box>
+      )}
+
       <TableContainer component={Paper}>
-        {isLoading && <CircularProgress />}
         <Table sx={{}} aria-label='customized table'>
           <TableHead>
             <TableRow>
@@ -118,41 +142,43 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
           </TableHead>
           <TableBody>
             {handleSearch()?.map((row: ICoin) => {
-              const profit = row?.price_change_percentage_24h > 0;
+              const profit = row?.change > 0;
+              const updatedPrice = row?.price;
+              console.log("updatedPrice", updatedPrice);
+
               return (
                 <StyledTableRow
                   key={row?.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <StyledTableCell>{row?.market_cap_rank}</StyledTableCell>
-                  <Link to={`/coin/${row?.id}`}>
-                    <StyledTableCell
-                      component='th'
-                      scope='row'
-                      sx={{
-                        display: "flex",
-                        gap: 2,
-                        alignItems: "center",
-                      }}
-                    >
-                      <Avatar src={row?.image} alt={row?.name} />
-
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span
-                          style={{
-                            textTransform: "uppercase",
-                            fontSize: 22,
-                          }}
-                        >
-                          {row?.symbol}
-                        </span>
-                        <span style={{ color: "darkgrey" }}>{row?.name}</span>
-                      </div>
-                    </StyledTableCell>
-                  </Link>
+                  <StyledTableCell>{row?.marketCap}</StyledTableCell>
+                  <StyledTableCell
+                    component='th'
+                    scope='row'
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Link to={`/coin/${row?.uuid}`}>
+                      <Avatar src={row?.iconUrl} alt={row?.name} />
+                    </Link>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span
+                        style={{
+                          textTransform: "uppercase",
+                          fontSize: 22,
+                        }}
+                      >
+                        {row?.symbol}
+                      </span>
+                      <span style={{ color: "darkgrey" }}>{row?.name}</span>
+                    </div>
+                  </StyledTableCell>
 
                   <StyledTableCell>
-                    {symbol} {numberWithCommas(row?.current_price.toFixed(2))}
+                    {symbol} {numberWithCommas(Number(updatedPrice).toFixed(2))}
                   </StyledTableCell>
                   <StyledTableCell
                     style={{
@@ -161,7 +187,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     }}
                   >
                     {profit && "+"}
-                    {row?.price_change_percentage_24h.toFixed(2)}%
+                    {row?.change}%
                   </StyledTableCell>
                   <StyledTableCell
                     style={{
@@ -169,17 +195,21 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                       fontWeight: 500,
                     }}
                   >
-                    {row?.total_volume}%
+                    {row?.["24hVolume"]}%
                   </StyledTableCell>
                   <StyledTableCell>
-                    {numberWithCommas(row?.market_cap.toString()?.slice(0, -5))}
-                    M
+                    {numberWithCommas(row?.marketCap)}M
                   </StyledTableCell>
                 </StyledTableRow>
               );
             })}
           </TableBody>
         </Table>
+        {/* {coins?.length === 0 && (
+          <Box sx={{ width: "100%", mb: 5 }}>
+            <LinearProgress color='inherit' />
+          </Box>
+        )} */}
       </TableContainer>
     </Container>
   );
