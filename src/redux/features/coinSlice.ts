@@ -95,7 +95,7 @@ const coinSlice = createSlice({
     });
     builder.addCase(getCoinById.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.coins = action.payload;
+      state.coin = action.payload;
     });
     builder.addCase(getCoinById.rejected, (state, action) => {
       state.isLoading = false;

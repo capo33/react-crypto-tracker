@@ -9,8 +9,7 @@ export const options = (param: string, currency: string) => ({
   url: param,
   params: {
     referenceCurrencyUuid: currency,
-    timePeriod: "24h",
-    "tiers[0]": "1",
+    
     orderBy: "marketCap",
     orderDirection: "desc",
     limit: "100",
