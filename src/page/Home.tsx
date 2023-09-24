@@ -26,8 +26,8 @@ const Home = () => {
     <Box sx={{ flex: 1 }}>
       <Container sx={{ py: 8 }} maxWidth='xl'>
         <HeroBunner />
-        <CoinsTable coins={coins} isLoading={isLoading} />
       </Container>
+        <CoinsTable coins={coins} isLoading={isLoading} />
     </Box>
   );
 };

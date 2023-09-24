@@ -117,7 +117,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
                 value={currency}
-                style={{ width: '100%',   marginLeft: 15 }}
+                style={{ width: "100%", marginLeft: 15 }}
                 onChange={(e) => setCurrency(e.target.value)}
               >
                 <MenuItem value={"yhjMzLPhuIDl"}>USD</MenuItem>
@@ -130,7 +130,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
       </ThemeProvider>
 
       <TableContainer component={Paper}>
-        <Table sx={{}} aria-label='customized table'>
+        <Table aria-label='customized table'>
           <TableHead>
             <TableRow>
               {[

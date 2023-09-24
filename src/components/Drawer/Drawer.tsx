@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 // Material UI Components
-import { Drawer as DrawerCoins, Box, Button, Typography } from "@mui/material";
+import {
+  Drawer as DrawerCoins,
+  Box,
+  Button,
+  Typography,
+  Badge,
+} from "@mui/material";
 // Material UI Icons
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -91,7 +97,15 @@ const Drawer = ({ favourites }: DrawerProps) => {
     <>
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button onClick={toggleDrawer("right", true)}>
-          <AddShoppingCartIcon color='warning' />
+          <Badge
+            badgeContent={
+              favourites && favourites.length === 0 ? "0" : favourites.length
+            }
+            color={favourites && favourites.length === 0 ? "warning" : "error"}
+            sx={{ marginRight: 5 }}
+          >
+            <AddShoppingCartIcon sx={{ color: "#fff" }} fontSize='medium' />
+          </Badge>
         </Button>
       </Box>
       <DrawerCoins
