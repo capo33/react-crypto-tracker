@@ -4,6 +4,11 @@
 ![Alt text](./details.png "details")
 ![Alt text](./drawer.png "drawer")
 
+## Crypto tricker app 
+
+- Track the total amount and value of cryptocurrencies in real-time. 
+- Track historic transactions, their worth, and destinations or sources
+
 ## Features
 
 - Add & Remove favorites
@@ -43,8 +48,10 @@ yarn start
 
 - [React]
 - [Redux]
+- [Redux-Toolkit]
 - [Typescript]
 
 [React]: https://react.dev/
 [Redux]: https://redux.js.org/tutorials/typescript-quick-start/
+[Redux-Toolkit]: https://redux-toolkit.js.org/
 [Typescript]: https://www.typescriptlang.org/
