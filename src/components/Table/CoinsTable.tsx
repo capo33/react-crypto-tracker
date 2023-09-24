@@ -22,7 +22,7 @@ import {
   StyledTableCell,
   StyledTableRow,
   customTheme,
-} from "../../styles/tableStyles";
+} from "../../styles/TableStyles";
 import { numberWithCommas } from "../../utils/Index";
 import { ICoin } from "../../interfaces/CoinInterface";
 import { CryptoContext } from "../../context/cryptoContext";

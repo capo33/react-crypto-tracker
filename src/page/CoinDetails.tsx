@@ -1,22 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, Typography, ButtonBase, Paper, Grid } from "@mui/material";
 
 import { Chart } from "../components/Index";
+import { Img } from "../styles/CoinDetailsStyles";
 import { getCoinById } from "../redux/features/coinSlice";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import ButtonBase from "@mui/material/ButtonBase";
 
-const Img = styled("img")({
-  margin: "auto",
-  display: "block",
-  maxWidth: "100%",
-  maxHeight: "100%",
-});
 const CoinDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { coin } = useAppSelector((state) => state.coins);
@@ -69,7 +59,7 @@ const CoinDetails = () => {
                 BTC {coin?.btcPrice}
               </Typography>
               <Typography variant='subtitle1' component='div'>
-              (24h) {coin?.change}% 
+                (24h) {coin?.change}%
               </Typography>
             </Grid>
           </Grid>
