@@ -23,6 +23,8 @@ import { ThemeProvider, useTheme } from "@mui/material/styles";
 // Material UI Icons
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 
 import {
   StyledTableCell,
@@ -138,7 +140,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                 "Coin",
                 "Price",
                 "24h Change",
-                "Total volume",
+                "24h Volume",
                 "Market Cap",
                 "Keep track",
               ].map((head) => (
@@ -159,8 +161,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
             {handleSearch()
               ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // from 0 to 10 and display 10 items
               ?.map((row: ICoin) => {
-                const profit = row?.change > 0;
-
                 return (
                   <StyledTableRow
                     key={row?.name}
@@ -199,26 +199,37 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     </StyledTableCell>
 
                     <StyledTableCell>
-                      {symbol} {numberWithCommas(Number(row?.price).toFixed(2))}
+                      {symbol} {numberWithCommas(Number(row?.price).toFixed(2))} 
                     </StyledTableCell>
 
                     <StyledTableCell
                       style={{
-                        color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
+                        color:
+                          Number(row?.change) > 0 ? "rgb(9, 165, 105)" : "red",
                         fontWeight: 500,
                       }}
                     >
-                      {profit && "+"}
-                      {row?.change}%
+                      {row?.change > 0 ? (
+                        <>
+                          <TrendingUpIcon />
+                          {row?.change}%
+                        </>
+                      ) : (
+                        <>
+                          <TrendingDownIcon />
+                          {row?.change}%
+                        </>
+                      )}
                     </StyledTableCell>
 
                     <StyledTableCell
                       style={{
-                        color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
+                        color:
+                          Number(row?.change) > 0 ? "rgb(9, 165, 105)" : "red",
                         fontWeight: 500,
                       }}
                     >
-                      {row?.["24hVolume"]}%
+                      {symbol} {numberWithCommas(row?.["24hVolume"])}M
                     </StyledTableCell>
 
                     <StyledTableCell>
