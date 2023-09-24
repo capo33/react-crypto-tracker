@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 // Material UI Components
 import {
   Paper,
+  Box,
+  Grid,
   Container,
   Avatar,
-  TableContainer,
   Table,
   TableHead,
   TableRow,
   TableBody,
   TextField,
-  Box,
-  LinearProgress,
   Pagination,
+  Select,
+  MenuItem,
+  TableContainer,
+  LinearProgress,
 } from "@mui/material";
 // Material UI Styles
 import { ThemeProvider, useTheme } from "@mui/material/styles";
@@ -41,7 +44,7 @@ type CoinsTableProps = {
 };
 
 const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
-  const { symbol } = useContext(CryptoContext);
+  const { symbol, currency, setCurrency } = useContext(CryptoContext);
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const { favourites } = useAppSelector((state) => state.cart);
@@ -82,21 +85,48 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
 
   const addToFavourirteHandler = (coin: ICoin) => {
     dispatch(addFavourite(coin));
-   };
+  };
 
   const removeFromFavourirteHandler = (coin: ICoin) => {
     dispatch(removeFavourite(coin));
-   };
+  };
 
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
       <ThemeProvider theme={customTheme(outerTheme)}>
-        <TextField
-          label='Serch for a crypto currency'
-          variant='outlined'
-          sx={{ mb: 5, width: "100%" }}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label='Serch for a crypto currency'
+              focused
+              variant='outlined'
+              sx={{ mb: 5, width: "100%" }}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Select
+                variant='outlined'
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={currency}
+                style={{ width: '100%',   marginLeft: 15 }}
+                onChange={(e) => setCurrency(e.target.value)}
+              >
+                <MenuItem value={"yhjMzLPhuIDl"}>USD</MenuItem>
+                <MenuItem value={"5k-_VTxqtCEI"}>EUR</MenuItem>
+                <MenuItem value={"Qwsogvtv82FCd"}>BIT</MenuItem>
+              </Select>
+            </Box>
+          </Grid>
+        </Grid>
       </ThemeProvider>
 
       <TableContainer component={Paper}>
@@ -201,7 +231,9 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                         (item: ICoin) => item?.uuid === row?.uuid
                       ) ? (
                         <StarIcon
-                          onClick={() => removeFromFavourirteHandler(row as ICoin)}
+                          onClick={() =>
+                            removeFromFavourirteHandler(row as ICoin)
+                          }
                           sx={{ cursor: "pointer" }}
                         />
                       ) : (

@@ -6,11 +6,10 @@ import { CryptoContext } from "../context/cryptoContext";
 import { CoinsTable, HeroBunner } from "../components/Index";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
 
-
 const Home = () => {
   const { currency } = React.useContext(CryptoContext);
   const { coins, isLoading } = useAppSelector((state) => state.coins);
- 
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
