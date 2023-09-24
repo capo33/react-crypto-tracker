@@ -13,7 +13,7 @@ import {
 import moment from "moment/moment";
 import { Line } from "react-chartjs-2";
 
-import { ICoin } from "../../interfaces/CoinInterface";
+import { ICoin, IMarketChart } from "../../interfaces/CoinInterface";
 import { getCoinMarketChart } from "../../redux/features/coinSlice";
 import { useAppSelector, useAppDispatch } from "../../redux/app/store";
 
@@ -60,14 +60,15 @@ const Chart = ({ coin }: ChartPros) => {
       },
     },
   };
+
   const data = {
-    labels: marketChart?.map((value: any) =>
+    labels: marketChart?.map((value: IMarketChart) =>
       moment(value.price[0]).format("MMM Do")
     ),
     datasets: [
       {
         label: coinName,
-        data: marketChart?.map((value: any) => value.price),
+        data: marketChart?.map((value: IMarketChart) => value.price),
         fill: true,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",

@@ -29,13 +29,6 @@ const getCoinMarketChart = async (id: string) => {
 
   return response.data.data.history;
 };
-// const getCoinMarketChart = async (id: string) => {
-//   const response = await axios.request(
-//     options(`https://coinranking1.p.rapidapi.com/coin/${id}/history`)
-//   );
-
-//   return response.data.data.history;
-// };
 
 const coinServices = {
   getCoins,

@@ -18,9 +18,7 @@ const CoinDetails = () => {
 
   return (
     <Box sx={{ my: 15 }}>
-      <div>
-        <Chart coin={coin} />
-      </div>
+      <Chart coin={coin} />
     </Box>
   );
 };

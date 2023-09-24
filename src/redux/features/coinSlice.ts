@@ -7,7 +7,12 @@ const initialState: ICoinState = {
   coins: [],
   coin: null,
   trendingCoins: [],
-  marketChart: null,
+  marketChart: [
+    {
+      price: [],
+      timestamp: [],
+    },
+  ],
   isError: false,
   isLoading: false,
   message: null,
@@ -57,6 +62,7 @@ export const getCoinMarketChart = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const response = await coinServices.getCoinMarketChart(id);
+
       return response;
     } catch (error: unknown | any) {
       const message =

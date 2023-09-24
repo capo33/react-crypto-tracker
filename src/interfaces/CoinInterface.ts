@@ -25,11 +25,16 @@ export interface ICoin {
   "24hVolume": number;
 }
 
+export interface IMarketChart {
+  price: number[]
+  timestamp: number[]
+}
+
 export interface ICoinState {
   coins: ICoin[];
   coin: ICoin | null;
   trendingCoins: ICoin[];
-  marketChart: any;
+  marketChart: IMarketChart[];
   isError: boolean;
   isLoading: boolean;
   message: string | null;
