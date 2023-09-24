@@ -1,45 +1,46 @@
 import axios from "axios";
+import { option } from "../../utils/Index";
 
-import { options } from "../../utils/Index";
-
- 
-const getCoins = async () => {
-  const response = await axios.request(
-    options("https://coinranking1.p.rapidapi.com/coins")
+const getCoins = async (currency: string) => {
+  const response = await axios.get(
+    `https://api.coinranking.com/v2/coins?referenceCurrencyUuid=${currency}&limit=100`,
+    option
   );
+
   return response.data.data.coins;
 };
 
 // Get Coin By Id
 const getCoinById = async (id: string) => {
-  const response = await axios.request(
-    options(`https://coinranking1.p.rapidapi.com/coin/${id}`)
+  const response = await axios.get(
+    `https://api.coinranking.com/v2/coin/${id}`,
+    option
   );
 
   return response.data.data.coin;
 };
+
 // Get Coin history
 const getCoinMarketChart = async (id: string) => {
-  const response = await axios.request(
-    options(`https://coinranking1.p.rapidapi.com/coin/${id}/history`)
+  const response = await axios.get(
+    `https://api.coinranking.com/v2/coin/${id}/history?timePeriod=1y`,
+    option
   );
 
   return response.data.data.history;
 };
+// const getCoinMarketChart = async (id: string) => {
+//   const response = await axios.request(
+//     options(`https://coinranking1.p.rapidapi.com/coin/${id}/history`)
+//   );
 
-// Get TrendingCoins Data
-const getTrendingCoins = async () => {
-  const response = await axios.request(
-    options("https://coinranking1.p.rapidapi.com/coins")
-  );
-  return response.data.data.coins;
-};
+//   return response.data.data.history;
+// };
 
 const coinServices = {
   getCoins,
   getCoinById,
   getCoinMarketChart,
-  getTrendingCoins,
 };
 
 export default coinServices;

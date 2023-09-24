@@ -8,6 +8,7 @@ import routes from "./routes/routes";
 import { store } from "./redux/app/store";
 
 import "./index.css";
+import { CryptoProvider } from "./context/cryptoContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-    <RouterProvider router={routes} />
+      <CryptoProvider>
+        <RouterProvider router={routes} />
+      </CryptoProvider>
     </Provider>
   </React.StrictMode>
 );

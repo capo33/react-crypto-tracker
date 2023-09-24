@@ -10,20 +10,19 @@ type CryptoContextType = {
 };
 
 export const CryptoContext = createContext<CryptoContextType>({
-  currency: "USD",
+  currency: "yhjMzLPhuIDl",
   setCurrency: () => {},
   symbol: "$",
 });
 
 export const CryptoProvider = ({ children }: CryptoContextProps) => {
-  const [currency, setCurrency] = useState<string>("USD");
+  const [currency, setCurrency] = useState<string>("yhjMzLPhuIDl");
   const [symbol, setSymbol] = useState<string>("$");
 
   useEffect(() => {
-    currency === "USD" && setSymbol("$")
-    currency === "EUR" && setSymbol("€")
-    currency === "GBP" && setSymbol("£")
-    currency === "EGY" && setSymbol("EGP£")
+    currency === "yhjMzLPhuIDl" && setSymbol("$");
+    currency === "5k-_VTxqtCEI" && setSymbol("€");
+    currency === "Qwsogvtv82FCd" && setSymbol("₿");
   }, [currency]);
 
   return (

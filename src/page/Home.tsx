@@ -5,23 +5,26 @@ import { getCoins } from "../redux/features/coinSlice";
 import { CoinsTable, HeroBunner } from "../components/Index";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
 
+import { CryptoContext } from "../context/cryptoContext";
+
 const Home = () => {
   const { coins, isLoading } = useAppSelector((state) => state.coins);
+  const { currency } = React.useContext(CryptoContext);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // dispatch action to get coins
-    dispatch(getCoins());
+    dispatch(getCoins(currency));
 
     // set interval to get coins every 60 seconds
     const interval = setInterval(() => {
-      dispatch(getCoins());
+      dispatch(getCoins(currency));
     }, 60 * 1000); // 60 seconds
 
     // Clean up
     return () => clearInterval(interval);
-  }, [dispatch]);
+  }, [dispatch, currency]);
 
   return (
     <Box sx={{ flex: 1 }}>

@@ -16,9 +16,9 @@ const initialState: ICoinState = {
 // Get All Coins
 export const getCoins = createAsyncThunk(
   "coins/getCoins",
-  async (_, thunkAPI) => {
+  async (currency: string, thunkAPI) => {
     try {
-      const response = await coinServices.getCoins();
+      const response = await coinServices.getCoins(currency);
 
       return response;
     } catch (error: unknown | any) {

@@ -36,6 +36,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const { symbol } = useContext(CryptoContext);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
+  console.log(symbol);
 
   const outerTheme = useTheme();
 
@@ -80,19 +81,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </ThemeProvider>
-
-      {isLoading && (
-        <Box
-          sx={{
-            width: "100%",
-            mb: 5,
-            borderBottomColor: "#B2BAC2",
-            borderColor: "#E0E3E7",
-          }}
-        >
-          <LinearProgress />
-        </Box>
-      )}
 
       <TableContainer component={Paper}>
         <Table sx={{}} aria-label='customized table'>
@@ -183,6 +171,18 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {isLoading && (
+        <Box
+          sx={{
+            width: "100%",
+            mb: 5,
+            borderBottomColor: "#B2BAC2",
+            borderColor: "#E0E3E7",
+          }}
+        >
+          <LinearProgress />
+        </Box>
+      )}
       <Pagination
         style={{
           padding: 20,
@@ -192,7 +192,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
         }}
         count={(handleSearch()?.length ?? 0) / 10}
         page={page}
-        onChange={(event, value:number) => setPage(value)}
+        onChange={(event, value: number) => setPage(value)}
         shape='rounded'
       />
     </Container>
