@@ -15,8 +15,16 @@ import {
   tableCellClasses,
   Box,
   LinearProgress,
+  Pagination,
+  outlinedInputClasses,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import {
+  styled,
+  createTheme,
+  ThemeProvider,
+  Theme,
+  useTheme,
+} from "@mui/material/styles";
 
 import { numberWithCommas } from "../../utils/Index";
 import { ICoin } from "../../interfaces/CoinInterface";
@@ -27,9 +35,79 @@ type CoinsTableProps = {
   isLoading: boolean;
 };
 
+const customTheme = (outerTheme: Theme) =>
+  createTheme({
+    palette: {
+      mode: outerTheme.palette.mode,
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "--TextField-brandBorderColor": "#E0E3E7",
+            "--TextField-brandBorderHoverColor": "#B2BAC2",
+            "--TextField-brandBorderFocusedColor": "#6F7E8C",
+            "& label.Mui-focused": {
+              color: "var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: "var(--TextField-brandBorderColor)",
+          },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderHoverColor)",
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: "var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            "&:before, &:after": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            "&:before": {
+              borderBottom: "2px solid var(--TextField-brandBorderColor)",
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
+            },
+            "&.Mui-focused:after": {
+              borderBottom:
+                "2px solid var(--TextField-brandBorderFocusedColor)",
+            },
+          },
+        },
+      },
+    },
+  });
+
 const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
   const { symbol } = useContext(CryptoContext);
+  const outerTheme = useTheme();
 
   function createData(
     name: string,
@@ -81,37 +159,26 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
     },
   }));
 
-  const CssTextField = styled(TextField)({
-    "& label.Mui-focused": {
-      color: "#A0AAB4",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#B2BAC2",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#E0E3E7",
-      },
-      "&:hover fieldset": {
-        borderColor: "#B2BAC2",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#6F7E8C",
-      },
-    },
-  });
-
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
-      <CssTextField
-        id='outlined-basic'
-        label='Serch for a crypto currency'
-        variant='outlined'
-        sx={{ mb: 5, width: "100%" }}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <ThemeProvider theme={customTheme(outerTheme)}>
+        <TextField
+          label='Serch for a crypto currency'
+          variant='outlined'
+          sx={{ mb: 5, width: "100%" }}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </ThemeProvider>
+
       {isLoading && (
-        <Box sx={{ width: "100%", mb: 5 }}>
+        <Box
+          sx={{
+            width: "100%",
+            mb: 5,
+            borderBottomColor: "#B2BAC2",
+            borderColor: "#E0E3E7",
+          }}
+        >
           <LinearProgress />
         </Box>
       )}
@@ -141,76 +208,86 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {handleSearch()?.map((row: ICoin) => {
-              const profit = row?.change > 0;
-              const updatedPrice = row?.price;
-              console.log("updatedPrice", updatedPrice);
+            {handleSearch()
+              ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // means from 0 to 10 and display 10 items
+              ?.map((row: ICoin) => {
+                const profit = row?.change > 0;
+                const updatedPrice = row?.price;
+                console.log("updatedPrice", updatedPrice);
 
-              return (
-                <StyledTableRow
-                  key={row?.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <StyledTableCell>{row?.marketCap}</StyledTableCell>
-                  <StyledTableCell
-                    component='th'
-                    scope='row'
-                    sx={{
-                      display: "flex",
-                      gap: 2,
-                      alignItems: "center",
-                    }}
+                return (
+                  <StyledTableRow
+                    key={row?.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <Link to={`/coin/${row?.uuid}`}>
-                      <Avatar src={row?.iconUrl} alt={row?.name} />
-                    </Link>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <span
-                        style={{
-                          textTransform: "uppercase",
-                          fontSize: 22,
-                        }}
-                      >
-                        {row?.symbol}
-                      </span>
-                      <span style={{ color: "darkgrey" }}>{row?.name}</span>
-                    </div>
-                  </StyledTableCell>
+                    <StyledTableCell>{row?.marketCap}</StyledTableCell>
+                    <StyledTableCell
+                      component='th'
+                      scope='row'
+                      sx={{
+                        display: "flex",
+                        gap: 2,
+                        alignItems: "center",
+                      }}
+                    >
+                      <Link to={`/coin/${row?.uuid}`}>
+                        <Avatar src={row?.iconUrl} alt={row?.name} />
+                      </Link>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span
+                          style={{
+                            textTransform: "uppercase",
+                            fontSize: 22,
+                          }}
+                        >
+                          {row?.symbol}
+                        </span>
+                        <span style={{ color: "darkgrey" }}>{row?.name}</span>
+                      </div>
+                    </StyledTableCell>
 
-                  <StyledTableCell>
-                    {symbol} {numberWithCommas(Number(updatedPrice).toFixed(2))}
-                  </StyledTableCell>
-                  <StyledTableCell
-                    style={{
-                      color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {profit && "+"}
-                    {row?.change}%
-                  </StyledTableCell>
-                  <StyledTableCell
-                    style={{
-                      color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {row?.["24hVolume"]}%
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {numberWithCommas(row?.marketCap)}M
-                  </StyledTableCell>
-                </StyledTableRow>
-              );
-            })}
+                    <StyledTableCell>
+                      {symbol}{" "}
+                      {numberWithCommas(Number(updatedPrice).toFixed(2))}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {profit && "+"}
+                      {row?.change}%
+                    </StyledTableCell>
+                    <StyledTableCell
+                      style={{
+                        color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {row?.["24hVolume"]}%
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {numberWithCommas(row?.marketCap)}M
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
           </TableBody>
         </Table>
-        {/* {coins?.length === 0 && (
-          <Box sx={{ width: "100%", mb: 5 }}>
-            <LinearProgress color='inherit' />
-          </Box>
-        )} */}
       </TableContainer>
+      <Pagination
+        style={{
+          padding: 20,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+        count={(handleSearch()?.length ?? 0) / 10}
+        page={page}
+        onChange={(event, value) => setPage(value)}
+        shape='rounded'
+      />
     </Container>
   );
 };
