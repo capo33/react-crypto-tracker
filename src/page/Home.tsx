@@ -2,27 +2,24 @@ import React, { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 
 import { getCoins } from "../redux/features/coinSlice";
+import { CryptoContext } from "../context/cryptoContext";
 import { CoinsTable, HeroBunner } from "../components/Index";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
 
-import { CryptoContext } from "../context/cryptoContext";
 
 const Home = () => {
-  const { coins, isLoading } = useAppSelector((state) => state.coins);
   const { currency } = React.useContext(CryptoContext);
+  const { coins, isLoading } = useAppSelector((state) => state.coins);
  
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // dispatch action to get coins
     dispatch(getCoins(currency));
 
-    // set interval to get coins every 60 seconds
     const interval = setInterval(() => {
       dispatch(getCoins(currency));
-    }, 60 * 1000); // 60 seconds
+    }, 60 * 1000);
 
-    // Clean up
     return () => clearInterval(interval);
   }, [dispatch, currency]);
 

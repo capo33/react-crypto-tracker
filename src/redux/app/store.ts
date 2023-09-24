@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import coinReducer from "../features/coinSlice";
+import cartReducer from "../features/favouritesSlice";
 
  export const store = configureStore({
   reducer: {
     coins: coinReducer,
+    cart: cartReducer 
    },
 });
 

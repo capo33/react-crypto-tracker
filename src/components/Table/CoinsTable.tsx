@@ -17,15 +17,23 @@ import {
 } from "@mui/material";
 // Material UI Styles
 import { ThemeProvider, useTheme } from "@mui/material/styles";
+// Material UI Icons
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 import {
   StyledTableCell,
   StyledTableRow,
   customTheme,
 } from "../../styles/TableStyles";
+import {
+  addFavourite,
+  removeFavourite,
+} from "../../redux/features/favouritesSlice";
 import { numberWithCommas } from "../../utils/Index";
 import { ICoin } from "../../interfaces/CoinInterface";
 import { CryptoContext } from "../../context/cryptoContext";
+import { useAppDispatch, useAppSelector } from "../../redux/app/store";
 
 type CoinsTableProps = {
   coins: ICoin[];
@@ -34,10 +42,12 @@ type CoinsTableProps = {
 
 const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const { symbol } = useContext(CryptoContext);
-  const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
+  const { favourites } = useAppSelector((state) => state.cart);
 
   const outerTheme = useTheme();
+  const dispatch = useAppDispatch();
 
   // Create data for table
   function createData(
@@ -70,6 +80,14 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
     );
   };
 
+  const addToFavourirteHandler = (coin: ICoin) => {
+    dispatch(addFavourite(coin));
+   };
+
+  const removeFromFavourirteHandler = (coin: ICoin) => {
+    dispatch(removeFavourite(coin));
+   };
+
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
       <ThemeProvider theme={customTheme(outerTheme)}>
@@ -92,10 +110,13 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                 "24h Change",
                 "Total volume",
                 "Market Cap",
+                "Keep track",
               ].map((head) => (
                 <StyledTableCell
                   sx={{
-                    fontWeight: "800",
+                    fontWeight: "700",
+                    fontSize: "1.2rem",
+                    textTransform: "capitalize",
                   }}
                   key={head}
                 >
@@ -106,7 +127,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
           </TableHead>
           <TableBody>
             {handleSearch()
-              ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // means from 0 to 10 and display 10 items
+              ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // from 0 to 10 and display 10 items
               ?.map((row: ICoin) => {
                 const profit = row?.change > 0;
 
@@ -128,22 +149,29 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                       <Link to={`/coin/${row?.uuid}`}>
                         <Avatar src={row?.iconUrl} alt={row?.name} />
                       </Link>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span
-                          style={{
+                      <Box
+                        component={"div"}
+                        sx={{ display: "flex", flexDirection: "column" }}
+                      >
+                        <Box
+                          component={"span"}
+                          sx={{
                             textTransform: "uppercase",
                             fontSize: 22,
                           }}
                         >
                           {row?.symbol}
-                        </span>
-                        <span style={{ color: "darkgrey" }}>{row?.name}</span>
-                      </div>
+                        </Box>
+                        <Box component={"span"} sx={{ color: "darkgrey" }}>
+                          {row?.name}
+                        </Box>
+                      </Box>
                     </StyledTableCell>
 
                     <StyledTableCell>
                       {symbol} {numberWithCommas(Number(row?.price).toFixed(2))}
                     </StyledTableCell>
+
                     <StyledTableCell
                       style={{
                         color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
@@ -153,6 +181,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                       {profit && "+"}
                       {row?.change}%
                     </StyledTableCell>
+
                     <StyledTableCell
                       style={{
                         color: Number(profit) > 0 ? "rgb(14, 203, 129)" : "red",
@@ -161,8 +190,26 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     >
                       {row?.["24hVolume"]}%
                     </StyledTableCell>
+
                     <StyledTableCell>
                       {numberWithCommas(row?.marketCap)}M
+                    </StyledTableCell>
+
+                    {/* Add to favourate */}
+                    <StyledTableCell>
+                      {favourites?.find(
+                        (item: ICoin) => item?.uuid === row?.uuid
+                      ) ? (
+                        <StarIcon
+                          onClick={() => removeFromFavourirteHandler(row as ICoin)}
+                          sx={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <StarBorderIcon
+                          onClick={() => addToFavourirteHandler(row as ICoin)}
+                          sx={{ cursor: "pointer" }}
+                        />
+                      )}
                     </StyledTableCell>
                   </StyledTableRow>
                 );
@@ -191,7 +238,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
         }}
         count={(handleSearch()?.length ?? 0) / 10}
         page={page}
-        onChange={(event, value: number) => setPage(value)}
+        onChange={(_, value: number) => setPage(value)}
         shape='rounded'
       />
     </Container>

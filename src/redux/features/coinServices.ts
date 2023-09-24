@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { option } from "../../utils/Index";
 
 const getCoins = async (currency: string) => {
