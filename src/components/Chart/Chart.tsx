@@ -45,6 +45,7 @@ const Chart = ({ coin }: ChartPros) => {
     dispatch(getCoinMarketChart(id as string));
   }, [dispatch, id]);
 
+  // Options
   const options = {
     responsive: true,
     plugins: {
@@ -61,17 +62,18 @@ const Chart = ({ coin }: ChartPros) => {
     },
   };
 
+  // Data
   const data = {
     labels: marketChart?.map((value: IMarketChart) =>
-      moment(value.price[0]).format("MMM Do")
+      moment(new Date(value.price[0])).format("MMM Do")
     ),
     datasets: [
       {
         label: coinName,
         data: marketChart?.map((value: IMarketChart) => value.price),
         fill: true,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        borderColor: coin?.color,
+        backgroundColor: "rgba(240, 240, 240, 0.3)",
       },
     ],
   };

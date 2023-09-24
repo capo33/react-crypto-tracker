@@ -36,7 +36,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const { symbol } = useContext(CryptoContext);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  console.log(symbol);
 
   const outerTheme = useTheme();
 

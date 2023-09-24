@@ -16,6 +16,7 @@ export interface ICoin {
   btcVolume: string;
   change: number;
   name: string;
+  color: string;
   marketCap: string;
   price: number;
   rank: number;

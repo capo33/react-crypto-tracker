@@ -10,7 +10,7 @@ import { CryptoContext } from "../context/cryptoContext";
 const Home = () => {
   const { coins, isLoading } = useAppSelector((state) => state.coins);
   const { currency } = React.useContext(CryptoContext);
-
+ 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
