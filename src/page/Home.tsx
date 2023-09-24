@@ -17,7 +17,7 @@ const Home = () => {
     // set interval to get coins every 60 seconds
     const interval = setInterval(() => {
       dispatch(getCoins());
-    }, 60000); // 60 seconds
+    }, 60 * 1000); // 60 seconds
 
     // Clean up
     return () => clearInterval(interval);

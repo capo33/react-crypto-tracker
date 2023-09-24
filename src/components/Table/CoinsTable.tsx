@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-// Material UI
+// Material UI Components
 import {
   Paper,
   Container,
@@ -9,23 +9,20 @@ import {
   Table,
   TableHead,
   TableRow,
-  TableCell,
   TableBody,
   TextField,
-  tableCellClasses,
   Box,
   LinearProgress,
   Pagination,
-  outlinedInputClasses,
 } from "@mui/material";
-import {
-  styled,
-  createTheme,
-  ThemeProvider,
-  Theme,
-  useTheme,
-} from "@mui/material/styles";
+// Material UI Styles
+import { ThemeProvider, useTheme } from "@mui/material/styles";
 
+import {
+  StyledTableCell,
+  StyledTableRow,
+  customTheme,
+} from "../../styles/tableStyles";
 import { numberWithCommas } from "../../utils/Index";
 import { ICoin } from "../../interfaces/CoinInterface";
 import { CryptoContext } from "../../context/cryptoContext";
@@ -35,80 +32,14 @@ type CoinsTableProps = {
   isLoading: boolean;
 };
 
-const customTheme = (outerTheme: Theme) =>
-  createTheme({
-    palette: {
-      mode: outerTheme.palette.mode,
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            "--TextField-brandBorderColor": "#E0E3E7",
-            "--TextField-brandBorderHoverColor": "#B2BAC2",
-            "--TextField-brandBorderFocusedColor": "#6F7E8C",
-            "& label.Mui-focused": {
-              color: "var(--TextField-brandBorderFocusedColor)",
-            },
-          },
-        },
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          notchedOutline: {
-            borderColor: "var(--TextField-brandBorderColor)",
-          },
-          root: {
-            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderHoverColor)",
-            },
-            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: "var(--TextField-brandBorderFocusedColor)",
-            },
-          },
-        },
-      },
-      MuiFilledInput: {
-        styleOverrides: {
-          root: {
-            "&:before, &:after": {
-              borderBottom: "2px solid var(--TextField-brandBorderColor)",
-            },
-            "&:hover:not(.Mui-disabled, .Mui-error):before": {
-              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
-            },
-            "&.Mui-focused:after": {
-              borderBottom:
-                "2px solid var(--TextField-brandBorderFocusedColor)",
-            },
-          },
-        },
-      },
-      MuiInput: {
-        styleOverrides: {
-          root: {
-            "&:before": {
-              borderBottom: "2px solid var(--TextField-brandBorderColor)",
-            },
-            "&:hover:not(.Mui-disabled, .Mui-error):before": {
-              borderBottom: "2px solid var(--TextField-brandBorderHoverColor)",
-            },
-            "&.Mui-focused:after": {
-              borderBottom:
-                "2px solid var(--TextField-brandBorderFocusedColor)",
-            },
-          },
-        },
-      },
-    },
-  });
-
 const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
+  const { symbol } = useContext(CryptoContext);
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
-  const { symbol } = useContext(CryptoContext);
+
   const outerTheme = useTheme();
 
+  // Create data for table
   function createData(
     name: string,
     calories: number,
@@ -138,26 +69,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
         : null
     );
   };
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#E5D283",
-      color: theme.palette.common.black,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
@@ -197,10 +108,9 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
               ].map((head) => (
                 <StyledTableCell
                   sx={{
-                    fontWeight: "700",
+                    fontWeight: "800",
                   }}
                   key={head}
-                  // align={head === "#Rank"  ? "center" : "right"}
                 >
                   {head}
                 </StyledTableCell>
@@ -212,15 +122,13 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
               ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // means from 0 to 10 and display 10 items
               ?.map((row: ICoin) => {
                 const profit = row?.change > 0;
-                const updatedPrice = row?.price;
-                console.log("updatedPrice", updatedPrice);
 
                 return (
                   <StyledTableRow
                     key={row?.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <StyledTableCell>{row?.marketCap}</StyledTableCell>
+                    <StyledTableCell>{row?.rank}</StyledTableCell>
                     <StyledTableCell
                       component='th'
                       scope='row'
@@ -247,8 +155,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                     </StyledTableCell>
 
                     <StyledTableCell>
-                      {symbol}{" "}
-                      {numberWithCommas(Number(updatedPrice).toFixed(2))}
+                      {symbol} {numberWithCommas(Number(row?.price).toFixed(2))}
                     </StyledTableCell>
                     <StyledTableCell
                       style={{
@@ -285,7 +192,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
         }}
         count={(handleSearch()?.length ?? 0) / 10}
         page={page}
-        onChange={(event, value) => setPage(value)}
+        onChange={(event, value:number) => setPage(value)}
         shape='rounded'
       />
     </Container>
