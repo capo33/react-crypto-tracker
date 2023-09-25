@@ -39,7 +39,7 @@ yarn
 yarn start
 ```
 
-4- Other options (go live)
+4- Other option (Go live)
 
 ```bash
 https://crypto-coins-tracker-react.netlify.app/
@@ -52,7 +52,14 @@ https://crypto-coins-tracker-react.netlify.app/
 - [Redux-Toolkit]
 - [Typescript]
 
-[React]: https://react.dev/
+## Styles
+
+- [Material-UI]
+- [Material-Icon]
+
+[React]: https://mui.com/
 [Redux]: https://redux.js.org/tutorials/typescript-quick-start/
 [Redux-Toolkit]: https://redux-toolkit.js.org/
 [Typescript]: https://www.typescriptlang.org/
+[Material-UI]: https://mui.com/
+[Material-Icon]: https://mui.com/material-ui/material-icons/
