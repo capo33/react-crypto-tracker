@@ -27,14 +27,21 @@
 
 ### Docker
 
-1- Run tha app with docker-compose
+1- Clone the repo
+
+```bash
+https://github.com/capo33/react-crypto-tracker
+```
+
+2- Run tha app with docker-compose
 
 - in the root directory run the command
 
 ```bash
 docker compose up
 ```
-### Cloning
+
+### Normal setup
 
 1- Clone the repo
 
