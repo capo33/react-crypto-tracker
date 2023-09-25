@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  client:
+    image: client
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "3000:3000"

@@ -25,6 +25,17 @@
 
 ## Installation & Usage
 
+### Docker
+
+1- Run tha app with docker-compose
+
+- in the root directory run the command
+
+```bash
+docker compose up
+```
+### Cloning
+
 1- Clone the repo
 
 ```bash
@@ -59,12 +70,12 @@ REACT_APP_COINRANKING_API_KEY = your API_KEY
 yarn start
 ```
 
-6- Other option (Go live)
+### Go live
 
 ```bash
 https://crypto-coins-tracker-react.netlify.app/
 ```
-
+ 
 ## Tech stack
 
 - [React]
