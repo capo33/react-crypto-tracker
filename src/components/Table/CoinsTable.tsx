@@ -10,6 +10,7 @@ import {
   Table,
   TableHead,
   TableRow,
+  TableCell,
   TableBody,
   TextField,
   Pagination,
@@ -18,19 +19,12 @@ import {
   TableContainer,
   LinearProgress,
 } from "@mui/material";
-// Material UI Styles
-import { ThemeProvider, useTheme } from "@mui/material/styles";
 // Material UI Icons
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 
-import {
-  StyledTableCell,
-  StyledTableRow,
-  customTheme,
-} from "../../styles/TableStyles";
 import {
   addFavourite,
   removeFavourite,
@@ -51,7 +45,6 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
   const [search, setSearch] = useState<string>("");
   const { favourites } = useAppSelector((state) => state.cart);
 
-  const outerTheme = useTheme();
   const dispatch = useAppDispatch();
 
   // Create data for table
@@ -95,14 +88,13 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
 
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
-      <ThemeProvider theme={customTheme(outerTheme)}>
+      <>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
               label='Serch for a crypto currency'
               focused
               variant='outlined'
-              sx={{ mb: 5, width: "100%" }}
               onChange={(e) => setSearch(e.target.value)}
             />
           </Grid>
@@ -129,11 +121,11 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
             </Box>
           </Grid>
         </Grid>
-      </ThemeProvider>
+      </>
 
       <TableContainer component={Paper}>
         <Table aria-label='customized table'>
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#E5D283" }}>
             <TableRow>
               {[
                 "#Rank",
@@ -144,7 +136,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                 "Market Cap",
                 "Keep track",
               ].map((head) => (
-                <StyledTableCell
+                <TableCell
                   sx={{
                     fontWeight: "700",
                     fontSize: "1.2rem",
@@ -153,7 +145,7 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                   key={head}
                 >
                   {head}
-                </StyledTableCell>
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -162,14 +154,24 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
               ?.slice((page - 1) * 10, (page - 1) * 10 + 10) // from 0 to 10 and display 10 items
               ?.map((row: ICoin) => {
                 return (
-                  <StyledTableRow
+                  <TableRow
                     key={row?.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:nth-of-type(even)": {
+                        backgroundColor: " #F7F7F7",
+                      },
+                      "&:last-child td, &:last-child th": { border: 0 },
+                    }}
                   >
-                    <StyledTableCell>{row?.rank}</StyledTableCell>
-                    <StyledTableCell
-                      component='th'
-                      scope='row'
+                    <TableCell
+                      sx={{
+                        fontWeight: "700",
+                        fontSize: "1.2rem",
+                      }}
+                    >
+                      {row?.rank}
+                    </TableCell>
+                    <TableCell
                       sx={{
                         display: "flex",
                         gap: 2,
@@ -196,13 +198,13 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                           {row?.name}
                         </Box>
                       </Box>
-                    </StyledTableCell>
+                    </TableCell>
 
-                    <StyledTableCell>
-                      {symbol} {numberWithCommas(Number(row?.price).toFixed(2))} 
-                    </StyledTableCell>
+                    <TableCell>
+                      {symbol} {numberWithCommas(Number(row?.price).toFixed(2))}
+                    </TableCell>
 
-                    <StyledTableCell
+                    <TableCell
                       style={{
                         color:
                           Number(row?.change) > 0 ? "rgb(9, 165, 105)" : "red",
@@ -220,9 +222,9 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                           {row?.change}%
                         </>
                       )}
-                    </StyledTableCell>
+                    </TableCell>
 
-                    <StyledTableCell
+                    <TableCell
                       style={{
                         color:
                           Number(row?.change) > 0 ? "rgb(9, 165, 105)" : "red",
@@ -230,14 +232,12 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                       }}
                     >
                       {symbol} {numberWithCommas(row?.["24hVolume"])}M
-                    </StyledTableCell>
+                    </TableCell>
 
-                    <StyledTableCell>
-                      {numberWithCommas(row?.marketCap)}M
-                    </StyledTableCell>
+                    <TableCell>{numberWithCommas(row?.marketCap)}M</TableCell>
 
                     {/* Add to favourate */}
-                    <StyledTableCell>
+                    <TableCell>
                       {favourites?.find(
                         (item: ICoin) => item?.uuid === row?.uuid
                       ) ? (
@@ -253,8 +253,8 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
                           sx={{ cursor: "pointer" }}
                         />
                       )}
-                    </StyledTableCell>
-                  </StyledTableRow>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
           </TableBody>
