@@ -38,14 +38,28 @@ https://github.com/capo33/react-crypto-tracker
 ```bash
 yarn
 ```
+3- Get an API key 
 
-3- Run the application
+- from coinranking website
+
+```bash
+https://developers.coinranking.com/api/documentation
+```
+4- Add Env Variables
+
+- Rename the `.env.example` file to `.env` and add the following
+
+```bash
+REACT_APP_COINRANKING_API_KEY = your API_KEY
+```
+ 
+5- Run the application
 
 ```bash
 yarn start
 ```
 
-4- Other option (Go live)
+6- Other option (Go live)
 
 ```bash
 https://crypto-coins-tracker-react.netlify.app/
