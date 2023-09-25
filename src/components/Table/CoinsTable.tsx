@@ -88,40 +88,30 @@ const CoinsTable = ({ coins, isLoading }: CoinsTableProps) => {
 
   return (
     <Container sx={{ py: 8 }} maxWidth='xl'>
-      <>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label='Serch for a crypto currency'
-              focused
-              variant='outlined'
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Select
-                variant='outlined'
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={currency}
-                style={{ width: "100%", marginLeft: 15 }}
-                onChange={(e) => setCurrency(e.target.value)}
-              >
-                <MenuItem value={"yhjMzLPhuIDl"}>USD</MenuItem>
-                <MenuItem value={"5k-_VTxqtCEI"}>EUR</MenuItem>
-                <MenuItem value={"Qwsogvtv82FCd"}>BIT</MenuItem>
-              </Select>
-            </Box>
-          </Grid>
+      <Grid container spacing={2} sx={{ mb: 3 }}>
+        <Grid item xs={12} md={6}>
+          <TextField
+            label='Serch for a crypto currency'
+            style={{ width: "100%" }}
+            variant='outlined'
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </Grid>
-      </>
+        <Grid item xs={12} md={6}>
+          <Select
+            variant='outlined'
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={currency}
+            style={{ width: "100%" }}
+            onChange={(e) => setCurrency(e.target.value)}
+          >
+            <MenuItem value={"yhjMzLPhuIDl"}>USD</MenuItem>
+            <MenuItem value={"5k-_VTxqtCEI"}>EUR</MenuItem>
+            <MenuItem value={"Qwsogvtv82FCd"}>BIT</MenuItem>
+          </Select>
+        </Grid>
+      </Grid>
 
       <TableContainer component={Paper}>
         <Table aria-label='customized table'>
