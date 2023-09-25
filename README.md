@@ -13,6 +13,7 @@
 
 - Add & Remove favorites
 - Search for crypto coins
+- Update the prices every minute
 - Change cryptocurrency
 - Pagination
 
