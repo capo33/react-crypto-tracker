@@ -41,7 +41,7 @@ yarn start
 4- Other options (go live)
 
 ```bash
-yarn start
+https://crypto-coins-tracker-react.netlify.app/
 ```
 
 ## Tech stack
