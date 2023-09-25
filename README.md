@@ -12,10 +12,16 @@
 ## Features
 
 - Add & Remove favorites
-- Search for crypto coins
+- Search for cryptocurrencies
 - Update the prices every minute
 - Change cryptocurrency
 - Pagination
+
+## Next tasks
+
+- Split the component into a small components
+- Add more features to the application
+- Create a about page
 
 ## Installation & Usage
 
