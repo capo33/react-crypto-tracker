@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AppBar, Typography, Toolbar, Box, Container } from "@mui/material";
 // Material UI Icons
 
-import { Drawer } from "../Index";
+import {Drawer} from "../index";
 import { useAppSelector } from "../../redux/app/store";
 
 function Navbar() {

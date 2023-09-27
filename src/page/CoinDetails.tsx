@@ -10,7 +10,7 @@ import {
   Chip,
 } from "@mui/material";
 
-import { Chart } from "../components/Index";
+ import { Chart, Copy } from "../components";
 import { Img } from "../styles/CoinDetailsStyles";
 import { getCoinById } from "../redux/features/coinSlice";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
@@ -20,6 +20,8 @@ const CoinDetails = () => {
   const { coin } = useAppSelector((state) => state.coins);
 
   const dispatch = useAppDispatch();
+
+  const color = coin?.color as string;
 
   useEffect(() => {
     dispatch(getCoinById(id as string));
@@ -71,7 +73,13 @@ const CoinDetails = () => {
                   (24h): {coin?.change}%
                 </Typography>
                 <Typography variant='subtitle1' component='div'>
-                  Color: <Chip label={coin?.color} sx={{ backgroundColor: coin?.color }} size="small"/>
+                  Color:{" "}
+                  <Chip
+                    label={color}
+                    sx={{ backgroundColor: color }}
+                    size='small'
+                  /> 
+                  <Copy color={color} />
                 </Typography>
               </Grid>
             </Grid>

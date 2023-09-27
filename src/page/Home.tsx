@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Box, Container } from "@mui/material";
 
 import { getCoins } from "../redux/features/coinSlice";
+import { CoinsTable, HeroBanner } from "../components";
 import { CryptoContext } from "../context/cryptoContext";
-import { CoinsTable, HeroBunner } from "../components/Index";
 import { useAppSelector, useAppDispatch } from "../redux/app/store";
 
 const Home = () => {
@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <Box sx={{ flex: 1 }}>
       <Container sx={{ py: 8 }} maxWidth='xl'>
-        <HeroBunner />
+        <HeroBanner />
       </Container>
         <CoinsTable coins={coins} isLoading={isLoading} />
     </Box>

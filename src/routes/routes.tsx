@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 import App from "../App";
-import { Home, CoinDetails } from "../page/Index";
+import { Home, CoinDetails } from "../page";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(

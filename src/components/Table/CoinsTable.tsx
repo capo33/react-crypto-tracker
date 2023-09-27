@@ -29,7 +29,7 @@ import {
   addFavourite,
   removeFavourite,
 } from "../../redux/features/favouritesSlice";
-import { numberWithCommas } from "../../utils/Index";
+import { numberWithCommas } from "../../utils";
 import { ICoin } from "../../interfaces/CoinInterface";
 import { CryptoContext } from "../../context/cryptoContext";
 import { useAppDispatch, useAppSelector } from "../../redux/app/store";

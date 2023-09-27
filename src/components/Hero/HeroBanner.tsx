@@ -3,7 +3,7 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 
 import CryptoImage from "../../assets/crypto.png";
 
-const HeroBunner = ({
+const HeroBanner = ({
   decorative = "Crypto Tracker",
   title = "Built for the future",
   subtitle = "Track the prices of cryptocurrencies in real-time.",
@@ -64,4 +64,4 @@ const HeroBunner = ({
   );
 };
 
-export default HeroBunner;
+export default HeroBanner;
